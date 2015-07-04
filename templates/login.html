@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='login.css')}}">
+  {% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+<div class="wrapper">
+  <form class="form-signin" action="{{ url_for('login') }}" method="POST">
+    <h2 class="form-signin-heading">Please login</h2>
+    <dl>
+      <dd><input type="text" class="form-control" name="username" placeholder="Username"/>
+      <dd><input type="password" class="form-control" name="password" placeholder="Password" / >
+      <hr>
+      <dd><input class="btn btn-primary btn-block" type="submit" value="Login">
+    </dl>
+  </form>
+{% endblock %}

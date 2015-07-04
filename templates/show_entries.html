@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+  {% if session.logged_in %}
+  <div class="add">
+    <h3>Add a New post:</h3>
+    <form action="{{ url_for('add_entry') }}" method="POST" class="add">
+      <p><label><strong>Title:</strong></label><br/>
+      <input name="title" type="text" value="{{request.form.title}}"></p>
+      <p><label><strong>Body:</strong></label><br/>
+      <input name="body" type="textarea" value="{{request.form.body}}"></p>
+      <input class="btn btn-primary" type="submit" value="Save">
+    </form>
+    <hr>
+  </div>
+  {% endif %}
+  <h1><strong>Latest Posts</strong></h1>
+  <div class="entries">
+    {% for entry in entries %}
+      <form action="{{ url_for('add_cmt') }}" method="POST">
+        <input hidden type="number" name="postid" value="{{ entry.postid }}">
+        <h2>{{ entry.title }}</h2>{{ entry.body|safe }}<br>
+        <div align='left'><hr>Comments:<br>
+        {%for comment in comments%}
+          {%if entry.postid==comment.postid%}<hr>
+            {{comment.user_name}} says : {{comment.cmt}}<hr>
+          {%endif%}
+        {%endfor%}<br>
+        <input class="form-control" name="commentbox" type="text" required>
+        <input class="btn btn-primary" name="comment" type="submit" value="Comment">
+      </form>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+  {% if session.logged_in %}
+  <div class="add">
+    <h3>New Post:</h3>
+    <form action="{{ url_for('add_entry') }}" method="POST" class="add">
+      <p><label><strong>Title:</strong></label><br/>
+      <input name="title" type="text" value="{{request.form.title}}"></p>
+      <p><label><strong>Body:</strong></label><br/>
+      <input name="body" type="textarea" value="{{request.form.body}}"></p>
+      <input class="button" type="submit" value="Save">
+    </form>
+  </div>
+  {% endif %}
+  <div class="entries">
+    {% for entry in entries %}
+      <form action="{{ url_for('add_cmt') }}" method="POST">
+        <input hidden type="number" name="postid" value="{{ entry.postid }}">
+        <h2>{{ entry.title }}</h2>{{ entry.body|safe }}
+        <input type="submit" value="Comment">
+      </form>
+    {% endfor %}
+  </div>
+{% endblock %}
